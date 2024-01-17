@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 
-@Entity
+//@Entity
 // Table Name은 기본적으로 Class Name으로 지정된다.
 // 변경하고 싶다면 아래와 같이 지정할 수 있다.
 // @Table(name = "Member")

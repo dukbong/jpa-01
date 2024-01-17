@@ -6,29 +6,29 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+//N:N관계 (실무에서 사용하지 않는다. N:1 관계로 풀어사용하는게 좋다.)
+
 //@Entity
-public class Team {
+public class Bproduct {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "TEAM_ID")
+	@GeneratedValue
+	@Column(name = "PRODUCT_ID")
 	private Long id;
 	private String name;
 	
-	@OneToMany(mappedBy = "team")
-	private List<TeamMember> members = new ArrayList<>();
+//	N:N
+//	@ManyToMany(mappedBy = "products")
+//	private List<Bmember> members = new ArrayList<>();
 	
+//	N:N 관계를 N:1로 바꿔서 사용
+	@OneToMany(mappedBy = "product")
+	private List<BmemberProduct> memberProducts = new ArrayList<>();
 	
-	public List<TeamMember> getMembers() {
-		return members;
-	}
-	public void setMembers(List<TeamMember> members) {
-		this.members = members;
-	}
 	public Long getId() {
 		return id;
 	}
@@ -41,6 +41,5 @@ public class Team {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
 	
 }

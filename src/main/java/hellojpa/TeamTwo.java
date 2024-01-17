@@ -8,25 +8,29 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
+// 1:N 관계
+
 //@Entity
-public class Team {
+public class TeamTwo {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "TEAM_ID")
+	@Column(name = "TEAMTWO_ID")
 	private Long id;
 	private String name;
 	
-	@OneToMany(mappedBy = "team")
-	private List<TeamMember> members = new ArrayList<>();
+	@OneToMany
+	@JoinColumn(name = "TEAMTWO_ID")
+	private List<TeamMemberTwo> members = new ArrayList<>();
 	
 	
-	public List<TeamMember> getMembers() {
+	public List<TeamMemberTwo> getMembers() {
 		return members;
 	}
-	public void setMembers(List<TeamMember> members) {
+	public void setMembers(List<TeamMemberTwo> members) {
 		this.members = members;
 	}
 	public Long getId() {

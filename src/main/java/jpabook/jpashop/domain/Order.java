@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -25,9 +26,6 @@ public class Order {
 	@Column(name = "ORDER_ID")
 	private Long id;
 	
-//	@Column(name = "MEMBER_ID")
-//	private Long memberId;
-
 	@ManyToOne
 	@JoinColumn(name = "MEMBER_ID")
 	private Member member;
@@ -39,6 +37,10 @@ public class Order {
 	
 	@OneToMany(mappedBy = "order")
 	private List<OrderItem> orderItems = new ArrayList<>();
+	
+	@OneToOne
+	@JoinColumn(name = "DELIVERY_ID")
+	private Delivery delivery;
 	
 	
 	public void addOrderItem(OrderItem orderItem) {

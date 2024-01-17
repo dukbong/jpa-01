@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-@Entity
+//@Entity
 public class TeamMember {
 
 	@Id
@@ -18,9 +18,6 @@ public class TeamMember {
 	
 	@Column(name = "USERNAME")
 	private String name;
-	
-//	@Column(name = "TEAM_ID")
-//	private Long teamId;
 	
 	@ManyToOne 
 	// TEAMMEMBER는 N , TEAM은 1의 관계
