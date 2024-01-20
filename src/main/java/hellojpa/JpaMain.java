@@ -99,11 +99,11 @@ public class JpaMain {
 //			Member findMember = em.find(Member.class, 200L);
 //			findMember.setName("UpdateJPA");
 			
-			Member member1 = new Member();
+			Memberd member1 = new Memberd();
 			member1.setUsername("A");
-			Member member2 = new Member();
+			Memberd member2 = new Memberd();
 			member2.setUsername("B");
-			Member member3 = new Member();
+			Memberd member3 = new Memberd();
 			member3.setUsername("C");
 			
 			System.out.println("================");

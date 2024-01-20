@@ -49,11 +49,11 @@ public class TeamMember {
 	
 	// 연관 관계 편의 메소드
 //	public void setTeam(Team team) {
-	public void changeTeam(Team team) {
-		this.team = team;
-		// 순수 객체 상태를 고려하여 양쪽에서 값을 설정할 수 있어야 한다.
-		team.getMembers().add(this);
-	}
+//	public void changeTeam(Team team) {
+//		this.team = team;
+//		// 순수 객체 상태를 고려하여 양쪽에서 값을 설정할 수 있어야 한다.
+//		team.getMembers().add(this);
+//	}
 	
 	
 }

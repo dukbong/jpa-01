@@ -2,33 +2,38 @@ package hellojpa;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-//@Entity
+@Entity
 // Table Name은 기본적으로 Class Name으로 지정된다.
 // 변경하고 싶다면 아래와 같이 지정할 수 있다.
 // @Table(name = "Member")
 //@Table(name = "MBR")
 
 // 시퀀스 만들기
-@SequenceGenerator(name = "member_seq_generator",
-				   sequenceName = "member_seq",
-				   initialValue = 1,
-				   allocationSize = 50)
+//@SequenceGenerator(name = "member_seq_generator",
+//				   sequenceName = "member_seq",
+//				   initialValue = 1,
+//				   allocationSize = 50)
 
 //@TableGenerator(name = "member_seq_generator",
 //				table = "MY_SEQUENCES",
 //				pkColumnValue = "member_seq",
 //				allocationSize = 1)
-public class Member {
+public class Memberd {
 	
 	@Id // 직접 할당
-	@GeneratedValue(strategy = GenerationType.SEQUENCE,
-				    generator = "member_seq_generator") 
-	
+//	@GeneratedValue(strategy = GenerationType.SEQUENCE,
+//				    generator = "member_seq_generator") 
+	@GeneratedValue
+	@Column(name = "MEMBER_ID")
 	/* @GeneratedValue // 자동생성
 	 * IDENTITY : 기본키 생성을 데이터 베이스에 위임
 	 * SEQUENCES : DB에서의 시퀀스 사용
@@ -39,8 +44,23 @@ public class Member {
 	
 	private Long id;
 	
-	@Column(name = "name")
+	@Column(name = "USERNAME")
 	private String username;
+	
+//	@ManyToOne(fetch = FetchType.LAZY) // 지연로딩 (권장)
+	// Team 객체를 프록시로 만든다.
+	@ManyToOne(fetch = FetchType.EAGER) // 즉시로딩 
+	@JoinColumn(name = "TEAM_ID")
+	private Team team;
+	
+
+	public Team getTeam() {
+		return team;
+	}
+
+	public void setTeam(Team team) {
+		this.team = team;
+	}
 
 	public Long getId() {
 		return id;

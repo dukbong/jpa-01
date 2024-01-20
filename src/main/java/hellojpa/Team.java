@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-//@Entity
+@Entity
 public class Team {
 
 	@Id
@@ -20,13 +20,13 @@ public class Team {
 	private String name;
 	
 	@OneToMany(mappedBy = "team")
-	private List<TeamMember> members = new ArrayList<>();
+	private List<Memberd> members = new ArrayList<>();
 	
 	
-	public List<TeamMember> getMembers() {
+	public List<Memberd> getMembers() {
 		return members;
 	}
-	public void setMembers(List<TeamMember> members) {
+	public void setMembers(List<Memberd> members) {
 		this.members = members;
 	}
 	public Long getId() {
