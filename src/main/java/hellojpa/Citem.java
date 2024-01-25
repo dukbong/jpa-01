@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 
-@Entity
+//@Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 // 가장 정규화된 상태로 만들어준다.
 // 장점으로는 외래키 제약조건 무결성 활용 가능 및 저장 공간 효율화

@@ -13,7 +13,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
-@Entity
+//@Entity
 public class Category extends BaseEntity {
 
 	@Id

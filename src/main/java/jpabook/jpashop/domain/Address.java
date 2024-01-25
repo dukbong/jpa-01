@@ -3,7 +3,7 @@ package jpabook.jpashop.domain;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-@Embeddable
+//@Embeddable
 public class Address {
 	@Column(length = 10)
 	private String city;

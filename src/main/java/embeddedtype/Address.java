@@ -2,7 +2,7 @@ package embeddedtype;
 
 import javax.persistence.Embeddable;
 
-@Embeddable
+//@Embeddable
 public class Address {
 	
 	// 임베디드 타입은 기본생성자가 필수이다.

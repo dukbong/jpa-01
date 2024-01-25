@@ -1,4 +1,4 @@
-package hellojpa;
+package jpabook.jpashop.jpql;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,27 +6,24 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-//@Entity
+@Entity
 public class Team {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "TEAM_ID")
+	@Id @GeneratedValue @Column(name = "TEAM_ID")
 	private Long id;
 	private String name;
 	
 	@OneToMany(mappedBy = "team")
-	private List<Memberd> members = new ArrayList<>();
+	private List<Member> members = new ArrayList<>();
 	
 	
-	public List<Memberd> getMembers() {
+	public List<Member> getMembers() {
 		return members;
 	}
-	public void setMembers(List<Memberd> members) {
+	public void setMembers(List<Member> members) {
 		this.members = members;
 	}
 	public Long getId() {

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Embeddable;
 
-@Embeddable
+//@Embeddable
 public class Period {
 	
 	public Period() {
