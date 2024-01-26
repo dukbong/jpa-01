@@ -17,11 +17,14 @@ public class JpqlMain {
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		try {
-			
-			Member member = new Member();
-			member.setUsername("member1");
-			member.setAge(10);
-			em.persist(member);
+			for(int i = 0; i < 100; i++) {
+				Member member = new Member();
+				member.setUsername("member" + i);
+				member.setAge(i);
+				em.persist(member);
+			}
+			em.flush();
+			em.clear();
 															  // 엔티티 프로젝션
 			TypedQuery<Member> query1 = em.createQuery("select m from Member m", Member.class);
 			                                                  // 엔티티 프로젝션
@@ -72,6 +75,15 @@ public class JpqlMain {
 			MemberDTO memberDto = query11.get(0);
 			System.out.println("username = " + memberDto.getUsername());
 			System.out.println("age      = " + memberDto.getAge());
+			
+			// 페이징 처리
+			List<Member> result = em.createQuery("select m from Member m order by m.age desc", Member.class)
+								    .setFirstResult(1) // 0번부터 데이터가 있는거다.
+								    .setMaxResults(10)
+								    .getResultList();
+			for(Member m : result) {
+				System.out.println("member = " + m.getUsername());
+			}
 			
 			
 			tx.commit();
