@@ -1,13 +1,12 @@
 package jpabook.jpashop.jpql;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-
-import jpabook.jpashop.domain.Item;
 
 public class JpqlMain {
 
@@ -189,13 +188,37 @@ public class JpqlMain {
 //			System.out.println("sizeResult = " + sizeResult.get(0));
 			
 			// 사용자 정의함수
-			String funQuery = "select function('function_name', m.username) from Member m";
-			List<String> funResult = em.createQuery(funQuery, String.class).getResultList();
-			System.out.println(funResult.get(0));
+//			String funQuery = "select function('function_name', m.username) from Member m";
+//			List<String> funResult = em.createQuery(funQuery, String.class).getResultList();
+//			System.out.println(funResult.get(0));
 			
 			// 상속 관계인 거만 보고 싶을때
 //			em.createQuery("select i from Item i where type(i) = Book", Item.class).getResultList();	
 			
+			// 경로 탐색 : 상태 필드
+			// 경로 탐색의 끝
+			String stateQuery = "select m.username from Member m";
+			List<String> stateResult = em.createQuery(stateQuery, String.class).getResultList();
+			System.out.println(stateResult.get(0));
+			// 단일 값 연관 경로 (묵시적 내부 조인 발생)
+			// 실무에서는 묵시적 내부 조인이 발생하는걸 막아야 한다... sql 튜닝이 어렵다.
+			// 탐색이 가능하다. m.team.name 이런식으로
+			String stateQuery2 = "select m.team from Member m";
+			String stateQuery2_1 = "select m.team.name from Member m";
+			// 이런식으로도 가능하다.
+			List<Team> stateResult2 = em.createQuery(stateQuery2, Team.class).getResultList();
+			System.out.println("stateResult2 " + stateResult2.get(0));
+			List<Team> stateResult2_1 = em.createQuery(stateQuery2_1, Team.class).getResultList();
+			System.out.println("stateResult2_1 " + stateResult2_1.get(0));
+			
+			// 컬렉션 값 연관 경로 (묵시적 내부 조인 발생)
+			// 컬렉션 값은 탐색이 불가능하다.
+			String stateQuery3 = "select t.members from Team t";
+			String stateQuery3_1 = "select m.username from Team t join t.members m";
+			Collection stateResult3 = em.createQuery(stateQuery3, Collection.class).getResultList();
+			System.out.println("stateResult3 " + stateResult3);
+			List<String> stateResult3_1 = em.createQuery(stateQuery3_1, String.class).getResultList();
+			System.out.println("stateResult3_1 " + stateResult3_1);
 			
 			tx.commit();
 		} catch (Exception e) {
