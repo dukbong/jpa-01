@@ -349,6 +349,7 @@ public class JpqlMain {
 			System.out.println(findMemberTest.getAge());
 			
 			em.clear();
+			
 			Member findMember = em.find(Member.class, member1.getId());
 			System.out.println("member1.age = " + findMember.getAge());
 			
