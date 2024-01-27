@@ -120,16 +120,47 @@ public class JpqlMain {
 //			List<Member> subResult = em.createQuery(subQuery, Member.class).getResultList();
 //			
 			// JPQL 타입 표현과 기타식
-			String typeQuery = "select m.usernamem, 'HELLO', TRUE from Member m where m.type = :userType";
-			List<Object[]> typeResult = em.createQuery(typeQuery, Object[].class)
-										  .setParameter("userType", MemberType.ADMIN)
-										  .getResultList();
+//			String typeQuery = "select m.usernamem, 'HELLO', TRUE from Member m where m.type = :userType";
+//			List<Object[]> typeResult = em.createQuery(typeQuery, Object[].class)
+//										  .setParameter("userType", MemberType.ADMIN)
+//										  .getResultList();
+//			
+//			for(Object[] ob : typeResult) {
+//				System.out.println(ob[0]);
+//				System.out.println(ob[1]);
+//				System.out.println(ob[2]);
+//			}
 			
-			for(Object[] ob : typeResult) {
-				System.out.println(ob[0]);
-				System.out.println(ob[1]);
-				System.out.println(ob[2]);
+			// 기본 CASE 식
+//			String caseQuery = "select "
+//								+ "case "
+//								+ "	when m.age <= 10 then '학생 요금'"
+//								+ "	when m.age >= 60 then '경로 요금'"
+//								+ "	else '일반 요금' "
+//								+ "end"
+//							+ " from Member m";
+//			List<String> caseResult = em.createQuery(caseQuery, String.class).getResultList();
+//			for(String s : caseResult) {
+//				System.out.println("s = " + s);
+//			}
+			
+			// COALESCE : 하나씩 조회해서 null이 아니면 반환
+//			String coalesceQuery = "select coalesce(m.username, '이름없는 회원') from Member m";
+//			// 멤버 이름이 있으면 이름을 없으면 이름없는 회원을 반환한다.
+//			List<String> coalesceResult = em.createQuery(coalesceQuery, String.class).getResultList();
+//			for(String s : coalesceResult) {
+//				System.out.println("s = " + s);
+//			}
+			
+			// NULLIF : 두값이 같으면 null을 반환하고 다르면 첫번째 값 반환
+			String nullifQuery = "select NULLIF(m.username, '관리자') from Member m";
+			// m.username은 member1이기 떄문에 member1을 반환
+			List<String> nullifResult = em.createQuery(nullifQuery, String.class).getResultList();
+			for(String s : nullifResult) {
+				System.out.println(s);
 			}
+					
+					
 			
 			// 상속 관계인 거만 보고 싶을때
 			em.createQuery("select i from Item i where type(i) = Book", Item.class).getResultList();	
