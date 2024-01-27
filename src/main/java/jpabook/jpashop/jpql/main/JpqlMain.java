@@ -1,4 +1,4 @@
-package jpabook.jpashop.jpql;
+package jpabook.jpashop.jpql.main;
 
 import java.util.Collection;
 import java.util.List;
@@ -7,6 +7,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+
+import jpabook.jpashop.jpql.Member;
+import jpabook.jpashop.jpql.Team;
 
 public class JpqlMain {
 
@@ -289,17 +292,44 @@ public class JpqlMain {
 //				System.out.println("team = " + t.getTeam().getName() + " | " + t.getTeam().getMembers().size());
 //			}
 			
-			String query5 = "select t from Team t";
-			List<Team> q5Result = em.createQuery(query5, Team.class)
-									.setFirstResult(0)
-									.setMaxResults(2)
-									.getResultList();
-			System.out.println("q5Result = " + q5Result.size());
-			for(Team t : q5Result) {
-				System.out.println("team = " + t.getName() + " | members = " + t.getMembers().size());
-				for(Member m : t.getMembers()) {
-					System.out.println("-> member = " + m.getUsername());
-				}
+//			String query5 = "select t from Team t";
+//			List<Team> q5Result = em.createQuery(query5, Team.class)
+//									.setFirstResult(0)
+//									.setMaxResults(2)
+//									.getResultList();
+//			System.out.println("q5Result = " + q5Result.size());
+//			for(Team t : q5Result) {
+//				System.out.println("team = " + t.getName() + " | members = " + t.getMembers().size());
+//				for(Member m : t.getMembers()) {
+//					System.out.println("-> member = " + m.getUsername());
+//				}
+//			}
+			
+			// 엔티티 직접 사용 (PK)
+			// 엔티티를 전달하거나 넣으면 기본적으로 식별할 수 있는 Id 값이 들어간다.
+//			String query6 = "select m from Member m where m = :member";
+//			List<Member> q6 = em.createQuery(query6, Member.class)
+//								.setParameter("member", member1)
+//								.getResultList();
+//			for(Member m : q6) {
+//				System.out.println("member = " + m.getUsername());
+//			}
+			
+			// 엔티티 직접 사용 (FK)
+//			String query7 = "select m from Member m where m.team = :team";
+//			List<Member> q7 = em.createQuery(query7, Member.class)
+//					.setParameter("team", team1)
+//					.getResultList();
+//			for(Member m : q7) {
+//				System.out.println("member = " + m.getUsername());
+//			}
+			
+			// Named쿼리
+			List<Member> namedQuery = em.createNamedQuery("Member.findByUserName", Member.class)
+										.setParameter("username", "member1")
+										.getResultList();
+			for(Member m : namedQuery) {
+				System.out.println(m.getUsername());
 			}
 									
 			
