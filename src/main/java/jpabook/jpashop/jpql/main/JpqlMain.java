@@ -325,13 +325,32 @@ public class JpqlMain {
 //			}
 			
 			// Named쿼리
-			List<Member> namedQuery = em.createNamedQuery("Member.findByUserName", Member.class)
-										.setParameter("username", "member1")
-										.getResultList();
-			for(Member m : namedQuery) {
-				System.out.println(m.getUsername());
-			}
-									
+//			List<Member> namedQuery = em.createNamedQuery("Member.findByUserName", Member.class)
+//										.setParameter("username", "member1")
+//										.getResultList();
+//			for(Member m : namedQuery) {
+//				System.out.println(m.getUsername());
+//			}
+				
+			// 벌크 연산 (이거도 강제 flush가 된다.(
+			// flush가 나가는 경우 : commit, flush, 쿼리 날릴때
+			int result = em.createQuery("update Member m set m.age = 20").executeUpdate();
+			System.out.println(result);
+			
+			// ========== 벌크 연산한건 영속성 컨텍스트에 저장되어 있지 않고 DB에 직접 쿼리를 날리기 때문에
+			// ========== 현재 가져오게 되는건 영속성 컨텍스트에 1차 캐시에 있는 0이 출력된다.
+			// 벌크 연산 한 결과를 가져오기 위해서는 영속성 컨텍스트를 초기화 한 후 다시 조회해와야한다.
+			System.out.println("member1.age = " + member1.getAge());
+			System.out.println("member2.age = " + member2.getAge());
+			System.out.println("member3.age = " + member3.getAge());
+			System.out.println("member4.age = " + member4.getAge());
+			Member findMemberTest = em.find(Member.class, member1.getId());
+			// 이렇게 다시 조회해도 1차 캐시에 식별자로 저장되어 있기 때문에 DB에 접근하지 않고 1차 캐시에 있는 값을 가져온다.
+			System.out.println(findMemberTest.getAge());
+			
+			em.clear();
+			Member findMember = em.find(Member.class, member1.getId());
+			System.out.println("member1.age = " + findMember.getAge());
 			
 			tx.commit();
 		} catch (Exception e) {
