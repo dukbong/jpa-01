@@ -16,23 +16,23 @@ public class JpqlMain {
 		EntityTransaction tx = em.getTransaction();
 		tx.begin();
 		try {
-			Team team = new Team();
-			team.setName("Team1");
-			em.persist(team);
-			
-			Member member = new Member();
-			member.setUsername("member1");
-			member.setAge(18);
-			member.setType(MemberType.ADMIN);
-			member.setTeam(team);
-			em.persist(member);
-			
-			Member member2 = new Member();
-			member2.setUsername("member2");
-			em.persist(member2);
-			
-			em.flush();
-			em.clear();
+//			Team team = new Team();
+//			team.setName("Team1");
+//			em.persist(team);
+//			
+//			Member member = new Member();
+//			member.setUsername("member1");
+//			member.setAge(18);
+//			member.setType(MemberType.ADMIN);
+//			member.setTeam(team);
+//			em.persist(member);
+//			
+//			Member member2 = new Member();
+//			member2.setUsername("member2");
+//			em.persist(member2);
+//			
+//			em.flush();
+//			em.clear();
 			// 엔티티 프로젝션
 //			TypedQuery<Member> query1 = em.createQuery("select m from Member m", Member.class);
 ////			// 엔티티 프로젝션
@@ -197,28 +197,111 @@ public class JpqlMain {
 			
 			// 경로 탐색 : 상태 필드
 			// 경로 탐색의 끝
-			String stateQuery = "select m.username from Member m";
-			List<String> stateResult = em.createQuery(stateQuery, String.class).getResultList();
-			System.out.println(stateResult.get(0));
+//			String stateQuery = "select m.username from Member m";
+//			List<String> stateResult = em.createQuery(stateQuery, String.class).getResultList();
+//			System.out.println(stateResult.get(0));
 			// 단일 값 연관 경로 (묵시적 내부 조인 발생)
 			// 실무에서는 묵시적 내부 조인이 발생하는걸 막아야 한다... sql 튜닝이 어렵다.
 			// 탐색이 가능하다. m.team.name 이런식으로
-			String stateQuery2 = "select m.team from Member m";
-			String stateQuery2_1 = "select m.team.name from Member m";
+//			String stateQuery2 = "select m.team from Member m";
+//			String stateQuery2_1 = "select m.team.name from Member m";
 			// 이런식으로도 가능하다.
-			List<Team> stateResult2 = em.createQuery(stateQuery2, Team.class).getResultList();
-			System.out.println("stateResult2 " + stateResult2.get(0));
-			List<Team> stateResult2_1 = em.createQuery(stateQuery2_1, Team.class).getResultList();
-			System.out.println("stateResult2_1 " + stateResult2_1.get(0));
+//			List<Team> stateResult2 = em.createQuery(stateQuery2, Team.class).getResultList();
+//			System.out.println("stateResult2 " + stateResult2.get(0));
+//			List<Team> stateResult2_1 = em.createQuery(stateQuery2_1, Team.class).getResultList();
+//			System.out.println("stateResult2_1 " + stateResult2_1.get(0));
 			
 			// 컬렉션 값 연관 경로 (묵시적 내부 조인 발생)
 			// 컬렉션 값은 탐색이 불가능하다.
-			String stateQuery3 = "select t.members from Team t";
-			String stateQuery3_1 = "select m.username from Team t join t.members m";
-			Collection stateResult3 = em.createQuery(stateQuery3, Collection.class).getResultList();
-			System.out.println("stateResult3 " + stateResult3);
-			List<String> stateResult3_1 = em.createQuery(stateQuery3_1, String.class).getResultList();
-			System.out.println("stateResult3_1 " + stateResult3_1);
+//			String stateQuery3 = "select t.members from Team t";
+//			String stateQuery3_1 = "select m.username from Team t join t.members m";
+//			Collection stateResult3 = em.createQuery(stateQuery3, Collection.class).getResultList();
+//			System.out.println("stateResult3 " + stateResult3);
+//			List<String> stateResult3_1 = em.createQuery(stateQuery3_1, String.class).getResultList();
+//			System.out.println("stateResult3_1 " + stateResult3_1);
+			
+			// 실무에서는 절대 묵시적 조인 쓰지 마라!!!! 명시적 조인을 사용해라!!!
+			
+			// 중요!! 패치 조인
+			Team team1 = new Team();
+			Team team2 = new Team();
+			Team team3 = new Team();
+			team1.setName("team1");
+			team2.setName("team2");
+			team3.setName("team3");
+			em.persist(team1);
+			em.persist(team2);
+			em.persist(team3);
+			
+			Member member1 = new Member();
+			Member member2 = new Member();
+			Member member3 = new Member();
+			Member member4 = new Member();
+			member1.setUsername("member1");
+			member1.changeTeam(team1);
+			member2.setUsername("member2");
+			member2.changeTeam(team1);
+			member3.setUsername("member3");
+			member3.changeTeam(team2);
+			member4.setUsername("member4");
+			em.persist(member1);
+			em.persist(member2);
+			em.persist(member3);
+			em.persist(member4);
+			
+//			String query = "select m from Member m";
+//			List<Member> members = em.createQuery(query, Member.class).getResultList();
+//			for(Member m : members) {
+//				System.out.println("member = " + m.getUsername() + ", team = " + m.getTeam().getName());
+//			}
+			
+//			String query2 = "select m from Member m join fetch m.team";
+//			List<Member> members2 = em.createQuery(query2, Member.class).getResultList();
+//			for(Member m : members2) {
+//				System.out.println("member2 = " + m.getUsername() + ", team = " + m.getTeam().getName());
+//			}
+			
+//			String query3 = "select distinct t from Team t join fetch t.members";
+//			List<Team> team = em.createQuery(query3, Team.class).getResultList();
+//			for(Team t : team) {
+//				System.out.println("team = " + t.getName() + " | " + t.getMembers().size());
+//				for(Member m : t.getMembers()) {
+//					System.out.println("member = " + m.getUsername());
+//				}
+//			}
+			
+			// 1:N의 관계에서는 페이징 처리를 할 수 없다.
+			// 객체 그래프는 컬렉션을 선택해서 가져오는게 아닌 모두 가져온다는 전제가 깔려있다.
+			// 1:N을 페이징처리하면 하이버네이트에서 경고 로그를 남기고 메모리에서 페이징처리를 하기 때문에 매우 위험하다.
+			// 결론 : 1:N을 페이징 처리하고 싶다면 N:1로 순서를 바꿔서 페이징 처리해야한다.
+//			String query4 = "select t from Team t join fetch t.members";
+//			List<Team> teamResult = em.createQuery(query4, Team.class)
+//									  .setFirstResult(0)
+//									  .setMaxResults(1)
+//									  .getResultList();
+			// 1:N 관계를 N:1로 바꿔서 페이징 처리한 것.
+//			String query4_1 = "select m from Member m join fetch m.team t";
+//			List<Member> teamResult2 = em.createQuery(query4_1, Member.class)
+//					.setFirstResult(0)
+//					.setMaxResults(1)
+//					.getResultList();
+//			for(Member t : teamResult2) {
+//				System.out.println("team = " + t.getTeam().getName() + " | " + t.getTeam().getMembers().size());
+//			}
+			
+			String query5 = "select t from Team t";
+			List<Team> q5Result = em.createQuery(query5, Team.class)
+									.setFirstResult(0)
+									.setMaxResults(2)
+									.getResultList();
+			System.out.println("q5Result = " + q5Result.size());
+			for(Team t : q5Result) {
+				System.out.println("team = " + t.getName() + " | members = " + t.getMembers().size());
+				for(Member m : t.getMembers()) {
+					System.out.println("-> member = " + m.getUsername());
+				}
+			}
+									
 			
 			tx.commit();
 		} catch (Exception e) {

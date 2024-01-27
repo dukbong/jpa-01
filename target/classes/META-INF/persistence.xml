@@ -25,6 +25,7 @@
             <!-- batch_size 지정 : 한번 DB에 요청할때 몇개를 묶어서 보낼것인가 -->
             <property name="hibernate.jdbc.batch_size" value="10" />
             <property name="hibernate.hbm2ddl.auto" value="create" />
+            <property name="hibernate.default_batch_fetch_size" value="100"/>
         </properties>
     </persistence-unit>
 

@@ -5,9 +5,12 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import org.hibernate.annotations.BatchSize;
 
 @Entity
 public class Team {
@@ -16,7 +19,8 @@ public class Team {
 	private Long id;
 	private String name;
 	
-	@OneToMany(mappedBy = "team")
+	@BatchSize(size = 100)
+	@OneToMany(mappedBy = "team", fetch = FetchType.LAZY)
 	private List<Member> members = new ArrayList<>();
 	
 	
