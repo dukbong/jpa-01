@@ -28,6 +28,10 @@ public class JpqlMain {
 			member.setTeam(team);
 			em.persist(member);
 			
+			Member member2 = new Member();
+			member2.setUsername("member2");
+			em.persist(member2);
+			
 			em.flush();
 			em.clear();
 			// 엔티티 프로젝션
@@ -153,17 +157,44 @@ public class JpqlMain {
 //			}
 			
 			// NULLIF : 두값이 같으면 null을 반환하고 다르면 첫번째 값 반환
-			String nullifQuery = "select NULLIF(m.username, '관리자') from Member m";
-			// m.username은 member1이기 떄문에 member1을 반환
-			List<String> nullifResult = em.createQuery(nullifQuery, String.class).getResultList();
-			for(String s : nullifResult) {
-				System.out.println(s);
-			}
+//			String nullifQuery = "select NULLIF(m.username, '관리자') from Member m";
+//			// m.username은 member1이기 떄문에 member1을 반환
+//			List<String> nullifResult = em.createQuery(nullifQuery, String.class).getResultList();
+//			for(String s : nullifResult) {
+//				System.out.println(s);
+//			}
+			
+			// CONCAT
+//			String concat1 = "select 'a' || 'b' from Member m";
+//			String concat2 = "select concat('a','b') from Member m";
+//			List<String> concat1Result = em.createQuery(concat1, String.class).getResultList();
+//			System.out.println("concat1 = " + concat1Result.get(0));
+//			List<String> concat2Result = em.createQuery(concat2, String.class).getResultList();
+//			System.out.println("concat2 = " + concat2Result.get(0));
 					
-					
+			// SUBSTRING
+//			String subString = "select substring(m.username, 2, 3) from Member m";
+			// m.username = member1 >> 2번째부터 3개
+//			List<String> subStringResult = em.createQuery(subString, String.class).getResultList();
+//			System.out.println("subStringResult = " + subStringResult.get(0));
+			
+			// LOCATE
+//			String locate = "select locate('de', 'abcdefg') from Member m";
+//			List<Integer> locateResult = em.createQuery(locate, Integer.class).getResultList();
+//			System.out.println("locateResult = " + locateResult.get(0));
+			
+			// SIZE (JPA 용도)
+//			String size = "select size(t.members) from Team t";
+//			List<Integer> sizeResult = em.createQuery(size, Integer.class).getResultList();
+//			System.out.println("sizeResult = " + sizeResult.get(0));
+			
+			// 사용자 정의함수
+			String funQuery = "select function('function_name', m.username) from Member m";
+			List<String> funResult = em.createQuery(funQuery, String.class).getResultList();
+			System.out.println(funResult.get(0));
 			
 			// 상속 관계인 거만 보고 싶을때
-			em.createQuery("select i from Item i where type(i) = Book", Item.class).getResultList();	
+//			em.createQuery("select i from Item i where type(i) = Book", Item.class).getResultList();	
 			
 			
 			tx.commit();
